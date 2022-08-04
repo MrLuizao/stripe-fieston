@@ -8,23 +8,26 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/stripe-checkout', async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
 
-    const stripeToken = req.body.stripeToken;
-    const cantidad = req.body.amount;
-    const cantidadConvert = Math.round(cantidad * 100);
+    const STRIPE_TOKEN = req.body.stripeToken;
+    let cantidad = req.body.amount;
+    const CONVERTED = Math.round(cantidad * 100);
+    const DESCRIPTION = req.body.description;    
+    const EMAIL = req.body.receipt_email
+
 
     const chargObject = await stripe.charges.create({
-        amount: cantidadConvert,
+        amount: CONVERTED,
         currency: 'MXN',
-        source: stripeToken,
+        source: STRIPE_TOKEN,
         capture: false, 
-        description: req.body.description,
-        receipt_email: req.body.receipt_email
+        description: DESCRIPTION,
+        receipt_email: EMAIL
     });
 
     try {
-        await stripe.capture(chargObject.id);
+        await stripe.charges.capture(chargObject.id);
         res.json(chargObject)
     } catch (error) {
         await stripe.refunds.create({ charge: chargObject.id });
