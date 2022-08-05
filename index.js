@@ -1,3 +1,4 @@
+const twilio = require('../fieston-api/twilio');
 
 const express = require('express');
 const stripe = require('stripe')('sk_test_51LT7qEJ1JsXHRhLgitFjGG3SCjE7j6Vh2QZ9GlzwARz4SSB04ZQ6XV3DWrt40tvkKHflvx1GypUgfXt1MxDCzT6k00HdxYjYWw');
@@ -8,7 +9,6 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/stripe-checkout', async (req, res) => {
-    // console.log(req.body);
 
     const STRIPE_TOKEN = req.body.stripeToken;
     let cantidad = req.body.amount;
@@ -28,7 +28,10 @@ app.post('/stripe-checkout', async (req, res) => {
 
     try {
         await stripe.charges.capture(chargObject.id);
-        res.json(chargObject)
+        res.json(chargObject);
+
+        twilio.sendSMS();
+
     } catch (error) {
         await stripe.refunds.create({ charge: chargObject.id });
         res.json(chargObject)
