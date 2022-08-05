@@ -41,7 +41,6 @@ app.post('/stripe-checkout', async (req, res) => {
 });
 
 let port = process.PORT;
-// let port = process.env.PORT || 3000;
 
 app.listen(port, ()=>{
     console.log('Server runing on =>', port);
