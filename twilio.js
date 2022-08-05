@@ -1,7 +1,10 @@
 const twilio = require('twilio');
+const process = require('../fieston-api/process')
 
-const accountSid = 'AC2715a13a44593c4c83c9f904721ccb51';
-const authToken = '58e24ffdeac632d15832d296b7d626f2';
+// const accountSid = 'AC2715a13a44593c4c83c9f904721ccb51';
+// const authToken = '58e24ffdeac632d15832d296b7d626f2';
+const accountSid = process.SID;
+const authToken = process.AUTH;
 
 const client = new twilio(accountSid, authToken);
 
