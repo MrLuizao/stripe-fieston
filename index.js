@@ -1,5 +1,5 @@
-const twilio = require('../fieston-api/twilio');
-const process = require('../fieston-api/process')
+const twilio = require('fieston-api/twilio');
+const process = require('fieston-api/process')
 
 const express = require('express');
 const stripe = require('stripe')('sk_test_51LT7qEJ1JsXHRhLgitFjGG3SCjE7j6Vh2QZ9GlzwARz4SSB04ZQ6XV3DWrt40tvkKHflvx1GypUgfXt1MxDCzT6k00HdxYjYWw');
