@@ -16,7 +16,7 @@ app.post('/stripe-checkout', async (req, res) => {
     const CONVERTED = Math.round(cantidad * 100);
     const DESCRIPTION = req.body.description;    
     const EMAIL = req.body.receipt_email
-
+    const PHONE_SMS = req.body.phone_sms
 
     const chargObject = await stripe.charges.create({
         amount: CONVERTED,
@@ -31,7 +31,7 @@ app.post('/stripe-checkout', async (req, res) => {
         await stripe.charges.capture(chargObject.id);
         res.json(chargObject);
 
-        twilio.sendSMS();
+        twilio.sendSMS(PHONE_SMS);
 
     } catch (error) {
         await stripe.refunds.create({ charge: chargObject.id });
